@@ -1,0 +1,61 @@
+from tkinter import *
+import tkinter.font as tkFont
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(40, GPIO.OUT)
+GPIO.setup(38, GPIO.OUT)
+GPIO.setup(36, GPIO.OUT)
+
+win = Tk()
+
+myFont = tkFont.Font(family='Helvetica', size=36, weight='bold')
+
+def ledON():
+    print("LED 1 button pressed")
+    if GPIO.input(40) == GPIO.LOW:
+        GPIO.output(40, GPIO.HIGH)
+        ledButton["text"] = "LED OFF"
+    else:
+        GPIO.output(40, GPIO.LOW)
+        ledButton["text"] = "LED ON"
+
+def ledON2():
+    print("LED 2 button pressed")
+    if GPIO.input(38) == GPIO.LOW:
+        GPIO.output(38, GPIO.HIGH)
+        ledButton2["text"] = "LED OFF"
+    else:
+        GPIO.output(38, GPIO.LOW)
+        ledButton2["text"] = "LED ON"
+
+def ledON3():
+    print("LED 3 button pressed")
+    if GPIO.input(36) == GPIO.LOW:
+        GPIO.output(36, GPIO.HIGH)
+        ledButton3["text"] = "LED OFF"
+    else:
+        GPIO.output(36, GPIO.LOW)
+        ledButton3["text"] = "LED ON"
+
+def exitProgram():
+    print("Exit button pressed")
+    GPIO.cleanup()
+    win.quit()
+
+win.title("FIRST GUI")
+win.geometry('800x480')
+
+exitButton = Button(win, text="Exit", font=myFont, command=exitProgram, height=2, width=6)
+exitButton.pack(side=BOTTOM)
+
+ledButton = Button(win, text="LED ON", font=myFont, command=ledON, height=2, width=6)
+ledButton.pack()
+
+ledButton2 = Button(win, text="LED ON", font=myFont, command=ledON2, height=2, width=6)
+ledButton2.pack()
+
+ledButton3 = Button(win, text="LED ON", font=myFont, command=ledON3, height=2, width=6)
+ledButton3.pack()
+
+mainloop()
